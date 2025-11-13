@@ -1,3 +1,5 @@
+# <span style="color:red">⚠️ Warning: This project is AI generated.</span>
+
 # OpenCode Java SDK
 
 A comprehensive Java SDK for the OpenCode API with Spring Boot integration, Swagger documentation, and Server-Sent Events (SSE) support.
