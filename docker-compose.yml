@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  # Build the SDK first (used by other services)
+  sdk-builder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: opencode-java-sdk:latest
+    container_name: opencode-sdk-builder
+    command: echo "SDK built successfully"
+
+  # OpenCode server (optional - uncomment if you have opencode binary)
+  # opencode:
+  #   image: opencode/opencode:latest  # Replace with actual OpenCode image
+  #   container_name: opencode-server
+  #   ports:
+  #     - "8765:8765"
+  #   volumes:
+  #     - ./workspace:/workspace
+  #   command: serve --host 0.0.0.0 --port 8765
+  #   networks:
+  #     - opencode-network
+
+  # Spring Chat Application
+  chat-app:
+    build:
+      context: examples/spring-chat-app
+      dockerfile: Dockerfile
+    image: opencode-chat-app:latest
+    container_name: opencode-chat-app
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8080
+    depends_on:
+      - sdk-builder
+      # - opencode  # Uncomment if using OpenCode server
+    networks:
+      - opencode-network
+    restart: unless-stopped
+
+  # OpenAI API Bridge
+  api-bridge:
+    build:
+      context: examples/openai-api-bridge
+      dockerfile: Dockerfile
+    image: openai-api-bridge:latest
+    container_name: openai-api-bridge
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8081
+      - OPENCODE_URL=http://host.docker.internal:8765  # or http://opencode:8765 if using container
+      - OPENCODE_AUTO_START=false
+      - API_SECURITY_ENABLED=false
+      - CORS_ALLOWED_ORIGINS=*
+    depends_on:
+      - sdk-builder
+      # - opencode  # Uncomment if using OpenCode server
+    networks:
+      - opencode-network
+    restart: unless-stopped
+
+networks:
+  opencode-network:
+    driver: bridge
+
+volumes:
+  workspace:

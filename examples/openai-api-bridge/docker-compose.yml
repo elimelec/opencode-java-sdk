@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  openai-bridge:
+    build: .
+    container_name: openai-api-bridge
+    ports:
+      - "8081:8081"
+    environment:
+      - OPENCODE_URL=http://localhost:8765
+      - OPENCODE_AUTO_START=true
+      - OPENCODE_TIMEOUT=120000
+      - API_SECURITY_ENABLED=false
+      - CORS_ALLOWED_ORIGINS=*
+      - SPRING_PROFILES_ACTIVE=docker
+    volumes:
+      # Mount workspace for OpenCode to work with files
+      - ./workspace:/workspace
+      # Mount Docker socket if OpenCode needs Docker access
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Mount SSH keys if needed
+      - ~/.ssh:/home/appuser/.ssh:ro
+    networks:
+      - opencode-network
+    restart: unless-stopped
+    
+  # Optional: Run OpenCode as separate service
+  # opencode:
+  #   image: opencode/opencode:latest
+  #   container_name: opencode-server
+  #   ports:
+  #     - "8765:8765"
+  #   volumes:
+  #     - ./workspace:/workspace
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   command: serve --host 0.0.0.0 --port 8765
+  #   networks:
+  #     - opencode-network
+
+networks:
+  opencode-network:
+    driver: bridge
+
+volumes:
+  workspace:

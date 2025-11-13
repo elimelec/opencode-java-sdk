@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenCode Chat</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>OpenCode Chat Interface</h1>
+            <div class="controls">
+                <button id="startServer" class="btn btn-success">Start Server</button>
+                <button id="stopServer" class="btn btn-danger" disabled>Stop Server</button>
+                <button id="newSession" class="btn btn-primary" disabled>New Session</button>
+                <span id="serverStatus" class="status">Server: <span class="offline">Offline</span></span>
+            </div>
+        </header>
+        
+        <div class="chat-container">
+            <div class="sidebar">
+                <h3>Session Info</h3>
+                <div id="sessionInfo">
+                    <p>Session ID: <span id="sessionId">None</span></p>
+                    <p>Messages: <span id="messageCount">0</span></p>
+                </div>
+                
+                <h3>Available Providers</h3>
+                <select id="providerSelect" class="form-control">
+                    <option value="">Loading...</option>
+                </select>
+
+                <h3>Available Models</h3>
+                <select id="modelSelect" class="form-control">
+                    <option value="">Select provider first</option>
+                </select>
+            </div>
+            
+            <div class="chat-main">
+                <div id="chatMessages" class="chat-messages">
+                    <div class="message system">
+                        Welcome to OpenCode Chat! Start the server to begin.
+                    </div>
+                </div>
+                
+                <div class="input-container">
+                    <textarea id="messageInput" 
+                              class="message-input" 
+                              placeholder="Type your message or command (e.g., /help)..." 
+                              disabled></textarea>
+                    <button id="sendMessage" class="btn btn-send" disabled>Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <script src="/js/chat.js"></script>
+</body>
+</html>

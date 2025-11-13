@@ -1,0 +1,40 @@
+server:
+  port: 8081
+  
+spring:
+  application:
+    name: openai-api-bridge
+    
+opencode:
+  server:
+    url: ${OPENCODE_URL:http://localhost:8765}
+    api-key: ${OPENCODE_API_KEY:}
+    timeout: ${OPENCODE_TIMEOUT:120000}
+    auto-start: ${OPENCODE_AUTO_START:true}
+    binary-path: ${OPENCODE_BINARY_PATH:opencode}
+    
+api:
+  security:
+    enabled: ${API_SECURITY_ENABLED:false}
+    api-keys: ${API_KEYS:}
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:*}
+    
+logging:
+  level:
+    dev.sst.opencode: DEBUG
+    
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
