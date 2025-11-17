@@ -318,6 +318,22 @@ class MyServiceTest {
 - Spring Boot 3.x (for Spring integration features)
 - OpenCode server running (default: http://localhost:8080)
 
+## Upstream OpenCode Source
+
+This repository includes the official OpenCode source as a reference-only git submodule at `external/opencode`. It is not part of the Maven build; use it to compare SDK behavior against the upstream implementation.
+
+After cloning:
+
+```bash
+git submodule update --init --recursive
+```
+
+To refresh the reference later:
+
+```bash
+git submodule update --remote external/opencode
+```
+
 ## Building from Source
 
 ```bash

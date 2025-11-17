@@ -1,0 +1,3 @@
+[submodule "external/opencode"]
+	path = external/opencode
+	url = git@github.com:elimelec/opencode.git
