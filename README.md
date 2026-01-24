@@ -1,3 +1,5 @@
+# <span style="color:red">⚠️ Warning: `opencode serve` has an UI now.</span>
+
 # <span style="color:red">⚠️ Warning: This project is AI generated.</span>
 
 # OpenCode Java SDK
